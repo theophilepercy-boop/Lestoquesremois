@@ -182,7 +182,8 @@ const NOTE_CONFIG = [
 const PROFILES = [
   { id: 'theophile-julie',   name: 'Théophile & Julie',  color: '#3A82B8' },
   { id: 'elise-fifou',       name: 'Élise & Fifou',      color: '#9B59B6' },
-  { id: 'charlotte-antoine', name: 'Charlotte & Antoine', color: '#E8583A' }
+  { id: 'charlotte-antoine', name: 'Charlotte & Antoine', color: '#E8583A' },
+  { id: 'lucie-alexis',      name: 'Lucie & Alexis',     color: '#27AE60' }
 ];
 
 function getProfileById(id) { return PROFILES.find(p => p.id === id) || PROFILES[0]; }

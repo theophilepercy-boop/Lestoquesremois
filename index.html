@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les Toqués Rémois</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <nav id="sidebar">
+      <div class="sidebar-brand">
+        <img src="LogoV2.jpg" alt="Les Toqués Rémois" class="sidebar-logo">
+      </div>
+      <div id="user-indicator" class="user-indicator"></div>
+      <div class="nav-links">
+        <button class="nav-link active" data-section="recettes">
+          <span class="nav-icon">📖</span>
+          <span>Recettes</span>
+        </button>
+        <button class="nav-link" data-section="courses">
+          <span class="nav-icon">🛒</span>
+          <span>Courses</span>
+          <span class="badge hidden" id="courses-badge">0</span>
+        </button>
+        <button class="nav-link" data-section="menu">
+          <span class="nav-icon">📅</span>
+          <span>Menu</span>
+        </button>
+      </div>
+      <div class="sidebar-footer">
+        <small>Les Toqués Rémois — v1.0</small>
+      </div>
+    </nav>
+
+    <main id="main-content">
+      <div id="main-greeting"></div>
+      <section id="section-recettes" class="section active"></section>
+      <section id="section-courses" class="section"></section>
+      <section id="section-menu" class="section"></section>
+    </main>
+  </div>
+
+  <!-- Modal overlay -->
+  <div id="modal-overlay" class="modal-overlay hidden" onclick="handleOverlayClick(event)">
+    <div id="modal-box" class="modal-box">
+      <button class="modal-close" onclick="hideModal()">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toasts"></div>
+
+  <!-- Topbar mobile -->
+  <header id="mobile-topbar">
+    <button id="mobile-profile-btn" onclick="openSessionSwitcher()">
+      <span id="mobile-profile-dot"></span>
+      <span id="mobile-profile-name"></span>
+    </button>
+    <nav id="mobile-nav">
+      <button class="mobile-nav-btn active" data-section="recettes" onclick="showSection('recettes')">
+        <span class="nav-icon">📖</span>
+        <span>Recettes</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="courses" onclick="showSection('courses')">
+        <span class="nav-icon">🛒</span>
+        <span>Courses</span>
+        <span class="mobile-nav-badge hidden" id="mobile-courses-badge">0</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="menu" onclick="showSection('menu')">
+        <span class="nav-icon">📅</span>
+        <span>Menu</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Écran de chargement -->
+  <div id="loading-screen">
+    <img src="LogoV2.jpg" alt="Les Toqués Rémois" class="loading-logo">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Chargement en cours…</p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

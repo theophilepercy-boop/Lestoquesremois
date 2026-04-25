@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════
 // CONSTANTS
 // ═══════════════════════════════════════════════════════
-const DAYS_FR = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+const DAYS_FR = ['Samedi','Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
 const MEALS = ['midi','soir'];
 const MEAL_ICONS = { midi: '☀️', soir: '🌙' };
 
@@ -200,7 +200,7 @@ let state = {
   menu:             [],
   notes:            [{ messages: [] }, { messages: [] }],
   currentSection:   'recettes',
-  currentMenuWeek:  getMondayDate(new Date()),
+  currentMenuWeek:  getSaturdayDate(new Date()),
   tagFilters:       [],
   favorites:        []
 };
@@ -430,10 +430,10 @@ function updateMobileNav() {
 // ═══════════════════════════════════════════════════════
 // WEEK UTILITIES
 // ═══════════════════════════════════════════════════════
-function getMondayDate(date) {
+function getSaturdayDate(date) {
   const d = new Date(date);
-  const day = d.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
+  const day = d.getDay(); // 0=Dim, 1=Lun, ..., 6=Sam
+  const diff = day === 6 ? 0 : -(day + 1);
   d.setDate(d.getDate() + diff);
   d.setHours(12, 0, 0, 0);
   return d.toISOString().split('T')[0];
@@ -1433,9 +1433,10 @@ function handleImageFile(file) {
           const urlInput = document.getElementById('ef-image');
           if (urlInput) urlInput.value = '';
         } catch(err) {
-          showToast('Erreur upload photo : ' + err.message, 'error');
-          addRecipeForm.imageData = null;
-          if (preview) { preview.src = ''; preview.style.display = 'none'; }
+          // Firebase Storage inaccessible : on garde la photo en base64 locale
+          const fallback = canvas.toDataURL('image/jpeg', 0.78);
+          addRecipeForm.imageData = fallback;
+          if (preview) { preview.src = fallback; preview.style.display = 'block'; }
         } finally {
           _setImageUploadLoading(false);
         }
@@ -2215,7 +2216,7 @@ function navWeek(n) {
 }
 
 function goToCurrentWeek() {
-  state.currentMenuWeek = getMondayDate(new Date());
+  state.currentMenuWeek = getSaturdayDate(new Date());
   renderMenu();
 }
 
@@ -2228,7 +2229,7 @@ function openMenuEntryOptions(entryId) {
     title: `${DAYS_FR[entry.day]} ${MEAL_ICONS[entry.meal]} ${entry.meal}`,
     body: `
       <p style="font-size:15px;font-weight:600;margin-bottom:16px;">${label}</p>
-      ${recipe ? `<button class="btn-secondary" style="width:100%;margin-bottom:8px;" onclick="openRecipeDetail('${recipe.id}');hideModal()">👁 Voir la recette</button>` : ''}
+      ${recipe ? `<button class="btn-secondary" style="width:100%;margin-bottom:8px;" onclick="openRecipeDetail('${recipe.id}')">👁 Voir la recette</button>` : ''}
       <button class="btn-danger" style="width:100%;" onclick="removeMenuEntry('${entryId}')">🗑 Supprimer ce créneau</button>`,
     footer: `<button class="btn-secondary" onclick="hideModal()">Fermer</button>`
   });
